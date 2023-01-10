@@ -53,17 +53,38 @@ function createFile(){
 }
 
 function openFileInterface(){
+    let file = new Document(dir.getPath());
+    dir.getFilesInDir();
 
+    interface.question(Messages.requestFileName, (name) =>{
+        if(file.exists(name)){
+            openFile(file, name);
+        }else{
+            console.log(Messages.fileNotFound);
+            setTimeout( ()=>{
+                interface.removeAllListeners('Line');
+                mainScreen();
+            }, 2000);
+           
+        }
+    });
+}
+
+function openFile(file, name){
+   content = file.open(name);
+
+    renderInterface(file);
+    readCommands(file);
 }
 
 function renderInterface(file, mensaje){
     process.stdout.write('\033c');
-    (file.getName()=='') ? console.log(`| untitled |`) : console.log(`| ${file.getName()} |`);
+    (file.getName() == '') ? console.log(`| untitled |`) : console.log(`| ${file.getName()} |`);
     
     console.log(tools);
 
-    if(mensaje !=null) console.log(mensaje);
-    console.log(file.getContent);
+    if(mensaje != null) console.log(mensaje);
+    console.log(file.getContent());
 }
 
 function readCommands(file){
@@ -107,4 +128,11 @@ function saveAs(file){
         }
     });
 }
-function save(file){}
+function save(file){
+    if(file.hasName()){
+        file.save();
+        renderInterface(file, `${Messages.fileSaved}\n`);
+    }else{
+        saveas(file);
+    }
+}

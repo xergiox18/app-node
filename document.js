@@ -3,7 +3,7 @@ const os = require('os');
 
 class Document{
 
-    Constructor(dir){
+    constructor(dir){
         this._content = '';
         this._isSaved = false;
         this._filename = '';
@@ -23,7 +23,7 @@ class Document{
         fs.writeFileSync(`${this._dir}/${name}`, this._content);
         this._filename = name;
         this._isSaved = true;  
-    }
+      }
 
     save(){
         fs.writeFileSync(`${this._dir}/${this._filename}`, this._content);

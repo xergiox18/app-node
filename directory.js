@@ -1,18 +1,19 @@
 const fs = require ('fs');
-const path = require('path');
+const path = require ('path');
 
 class Directory{
 
     constructor(){
+        this._dir = 'docs';
         this._path = __dirname;
         this.createDocsDir();
     }
 
     createDocsDir(){
-        this._path = path.join(this._path, 'docs', '');
+        this._path = path.join(this._path, 'docs');
 
-        if(!fs.existsSync('./docs')){
-            fs.mkdirSync('./docs');
+        if(!fs.existsSync(this._dir)){
+            fs.mkdirSync(this._dir);
         }
     }
 
@@ -22,7 +23,7 @@ class Directory{
 
     getShortPath(){
         const paths = path.parse(this._path);
-        let delimiter = "/";
+        let delimiter = '/';
 
         if(paths.dir.indexOf(delimiter) < 0){
             delimiter = `\\`;
@@ -38,7 +39,7 @@ class Directory{
 Ubicación: ${this.getShortPath()}
 ====================================`);
 
-        files.forEach(file =>{
+        files.forEach(file => {
             if(file != '.DS_Store'){
                 console.log(`   ${file}`);
                 n++;
